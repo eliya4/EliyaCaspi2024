@@ -22,4 +22,5 @@
     <string name="point">.</string>
     <string name="q">=</string>
     <string name="del">Del</string>
+    <string name="enter_num">enter num</string>
 </resources>
