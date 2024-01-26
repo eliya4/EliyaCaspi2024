@@ -2,9 +2,11 @@ package com.example.calculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import  org.mariuszgromada.math.mxparser.*;
 
 public class MainActivity extends AppCompatActivity {
     private EditText display;
@@ -30,8 +32,16 @@ public class MainActivity extends AppCompatActivity {
        int cursorPos = display.getSelectionStart();
        String leftStr = oldStr.substring(0, cursorPos);
        String rightSrr =oldStr.substring(cursorPos);
-       display.setText(String.format("%s%s%s",leftStr,stringToAdd,rightSrr));
-       display.setSelection(cursorPos+1);
+       if(getString(R.string.enter_num).equals(display.getText().toString()))
+       {
+           display.setText(stringToAdd);
+           display.setSelection(cursorPos+1);
+       }
+       else {
+           display.setText(String.format("%s%s%s",leftStr,stringToAdd,rightSrr));
+           display.setSelection(cursorPos+1);
+
+       }
 
     }
 
@@ -80,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public  void eqol(View view){
+        String userExp = display.getText().toString();
+        Expression exp = new Expression(userExp);
+        String result =String.valueOf(exp.calculate());
+        display.setText(result);
+        display.setSelection(result.length());
 
     }
     public  void Pr(View view){
@@ -114,6 +129,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public  void del(View view){
+        int cursorPos=display.getSelectionStart();
+        int textLen= display.getText().length();
+        if(cursorPos!=0&& textLen!=0){
+            SpannableStringBuilder Selection = (SpannableStringBuilder) display.getText();
+            Selection.replace(cursorPos-1,cursorPos,"");
+            display.setText(Selection);
+            display.setSelection(cursorPos-1);
+        }
 
     }
 
